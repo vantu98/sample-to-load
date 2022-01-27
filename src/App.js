@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [d, setD] = useState(() => localStorage.getItem("iframeUrl"));
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setD(value);
+  };
+
+  const removeSkynav = () => {
+    localStorage.removeItem("iframeUrl");
+    window.location.reload();
+  };
+
+  const addIframeUrl = () => {
+    localStorage.setItem("iframeUrl", d);
+    window.location.reload();
+  };
+
+  if (!d)
+    return (
+      <div className="">
+        <h1>Add Skynav to test</h1>
+        <input type="text" name="skynavUrl" onChange={handleChange} />
+        <button onClick={addIframeUrl}>Add</button>
+      </div>
+    );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <iframe
+        allowFullScreen
+        id="iframe-1901"
+        src={d}
+        title="Virtual Tour from a Drone"
+        frameborder="0"
+        data-gtm-yt-inspected-1_19="true"
+        data-gtm-yt-inspected-36971157_37="true"
+        style={{
+          width: "80%",
+          height: "90vh",
+        }}
+      ></iframe>
+      <button onClick={removeSkynav}>Remove Current Skynav</button>
     </div>
   );
 }
